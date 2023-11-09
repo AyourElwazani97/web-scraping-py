@@ -11,9 +11,6 @@ soup = BeautifulSoup(html, "html.parser")
 
 products = soup.find_all("li", {"class", "col-xs-12"})
 
-""" title = products.contents[1].find("p").text.strip() """
-
-
 def details():
     for i in range(len(products)):
         title = products[i].find("h3", {"class", "product-title"})
