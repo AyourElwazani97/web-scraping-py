@@ -22,15 +22,21 @@ def details():
         product_price_shipping_details = products[i].find(
             "div", {"class", "product-price-and-shipping"}
         )
-        regular_price = product_price_shipping_details.find(
-            "span", {"class", "regular-price"}
-        ).contents[0]
-        discount_amount = product_price_shipping_details.find(
-            "span", {"class", "discount-amount"}
-        ).contents[0]
-        price = product_price_shipping_details.find(
-            "span", {"class", "price"}
-        ).contents[0]
+        regular_price = (
+            product_price_shipping_details.find("span", {"class", "regular-price"})
+            .contents[0]
+            .text.strip()
+        )
+        discount_amount = (
+            product_price_shipping_details.find("span", {"class", "discount-amount"})
+            .contents[0]
+            .text.strip()
+        )
+        price = (
+            product_price_shipping_details.find("span", {"class", "price"})
+            .contents[0]
+            .text.strip()
+        )
 
         # product-description
         product_description = products[i].find("div", {"class", "product-detail"})
@@ -39,7 +45,7 @@ def details():
         # product-image-url
         product_image_url = products[i].find(
             "img", {"class", "thumbnail_product_listgrid"}
-        )
+        )["data-src"]
         product_data.append(
             {
                 "productTitle": link_href_content,
@@ -47,6 +53,7 @@ def details():
                 "discountPrice": discount_amount,
                 "Price": price,
                 "productDesc": product_description_Txt_Content,
+                "productImage": product_image_url,
             }
         )
 
