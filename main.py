@@ -1,4 +1,3 @@
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import csv
@@ -7,9 +6,12 @@ driver = webdriver.Chrome()
 driver.get("https://www.iris.ma/9-ordinateur")
 
 html = driver.page_source
-soup = BeautifulSoup(html, "html.parser")
+soup = BeautifulSoup(html, "lxml")
 
 products = soup.find_all("li", {"class", "col-xs-12"})
+
+product_data = []
+
 
 def details():
     for i in range(len(products)):
@@ -30,7 +32,31 @@ def details():
             "span", {"class", "price"}
         ).contents[0]
 
-        print(regular_price, discount_amount, price)
+        # product-description
+        product_description = products[i].find("div", {"class", "product-detail"})
+        product_description_Txt_Content = product_description.find("p").text.strip()
+
+        # product-image-url
+        product_image_url = products[i].find(
+            "img", {"class", "thumbnail_product_listgrid"}
+        )
+        product_data.append(
+            {
+                "productTitle": link_href_content,
+                "regularPrice": regular_price,
+                "discountPrice": discount_amount,
+                "Price": price,
+                "productDesc": product_description_Txt_Content,
+            }
+        )
+
+        keys = product_data[0].keys()
+
+        with open("product_details.csv", "w", encoding="utf-8") as output_filter:
+            dict_writer = csv.DictWriter(output_filter, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(product_data)
+            print("data saved successfully...")
 
 
 details()
