@@ -3,7 +3,7 @@ from selenium import webdriver
 import csv
 
 driver = webdriver.Chrome()
-driver.get("https://www.iris.ma/9-ordinateur")
+driver.get("https://www.iris.ma/9-ordinateur?page=3")
 
 html = driver.page_source
 soup = BeautifulSoup(html, "lxml")
