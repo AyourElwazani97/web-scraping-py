@@ -59,7 +59,9 @@ def details():
 
         keys = product_data[0].keys()
 
-        with open("product_details.csv", "w", encoding="utf-8") as output_filter:
+        with open(
+            "product_details.csv", "w", encoding="utf-8", newline=""
+        ) as output_filter:
             dict_writer = csv.DictWriter(output_filter, keys)
             dict_writer.writeheader()
             dict_writer.writerows(product_data)
